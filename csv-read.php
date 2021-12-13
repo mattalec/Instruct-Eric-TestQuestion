@@ -22,14 +22,14 @@
 	start:
 
 	// ask which country
-	echo "\nWhich country would you like to gather information for?";
+	echo "\nWhich country's services would you like to see?";
 	for ($i=0;$i<count($country_codes);$i++)
 	{
 		echo "\n".$i.') '.$country_trans[$country_codes[$i]];
 	}
 
 	// take answer
-	echo "\nPlease input country index: ";
+	echo "\nPlease input the country's index: ";
 	$ind = number_picker(0,count($country_codes)-1);
 	echo "\nThank you, you have selected: ".$country_trans[$country_codes[0+$ind]];
 
@@ -77,7 +77,8 @@
 	$continue = number_picker(1,3);
 
 	if ($continue == 1) {goto start;}
-	if ($continue == 2) {
+	if ($continue == 2)
+	{
 		// show summary of countries
 		echo "\nHere is a summary of available services in other countries:";
 		foreach (array_count_values($country_counts) as $key => $val)
@@ -86,6 +87,7 @@
 			if ($val > 1) {$a = $a.'s';}
 			echo "\n".$country_trans[$key]." has ".$val." ".$a;
 		}
+	}
 	if ($continue == 3) {exit;}
 
 ?>
