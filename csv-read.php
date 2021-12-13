@@ -1,5 +1,6 @@
 <?php
 
+	// function to take numerical input between low and high from user
 	function number_picker($low, $high)
 	{
 		$ind = fgets(STDIN);
@@ -11,9 +12,11 @@
 		return $ind;
 	}
 
+	// create translations for code
 	$country_codes = ['FR','DE','IT','PT','CZ','GB'];
 	$country_trans = ['FR'=>'France','DE'=>'Germany','IT'=>'Italy','PT'=>'Portugal','CZ'=>'Czech Republic','GB'=>'Great Britain'];
 
+	// to come back to if user wants to restart process
 	start:
 
 	echo "\nWhich country would you like to gather information for?";
@@ -32,16 +35,24 @@
 	$country_counts = [];
 	$row = 0;
 
+	// open csv and read every line, if country code == chosen code, add service and center to array
+
   if (($handle = fopen("services.csv", "r")) !== FALSE) {
 		while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
 
+			// 0th row is the column headers so can ignore
 			if ($row)
-			{			
+			{
+				// get all data from csv and seperate into different lists
+				// capitalise country code so they are all the same
 				$data[3] = strtoupper($data[3]);
+				// 1) gather all data in dataset if needed for further options
 				$ds[] = $data;
+				// 2) 3rd array for the number of services per country
 				$country_counts[] = $data[3];
 				if ($data[3] == $country_codes[0+$ind])
 				{
+					// 3) the first to answer the initial question of what services under a chosen country
 					$country_services[] = $data;
 				}
 			}
@@ -53,6 +64,7 @@
 
 	echo "\n\nWhich has the following services: ";
 
+	// show serviced offered by that specific country
 	$i = 0;
 	foreach ($country_services as $service) {
 		$i++;
@@ -66,6 +78,7 @@
 	else if (0+$continue == 1) {goto start;}
 	else
 	{
+		// show summary of countries
 		echo "\nHere is a summary of available services in other countries:";
 		foreach (array_count_values($country_counts) as $key => $val)
 		{
